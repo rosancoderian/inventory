@@ -3,6 +3,6 @@ import style from '../assets/style.css'
 
 export default () => (
     <Fragment>
-        <p className={style.white}>index</p>
+        <p className="white">index</p>
     </Fragment>
 )
