@@ -2,7 +2,7 @@ body {
     background-color: blue;
 }
 
-:local(.white) {
+ .white {
     color: #fff;
 }
 
