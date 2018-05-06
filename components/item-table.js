@@ -1,6 +1,6 @@
 const NoDataRow = () => (
 <tr>
-    <td colSpan="6" className="text-center">
+    <td colSpan="5" className="text-center">
         Data not found.
     </td>
 </tr>
@@ -11,12 +11,8 @@ const ItemRow = (props) => (
     <td className="text-center w-1">{props.i + 1}</td>
     <td>{props.name}</td>
     <td className="text-right">{props.stock}</td>
-    <td className="text-right">Rp. {props.buy_price} ,-</td>
-    <td className="text-right">Rp. {props.sell_price} ,-</td>
+    <td className="text-left">{props.desc}</td>
     <td className="col-action">
-        <a href="#" className="icon">
-            <i className="fe fe-external-link"></i>
-        </a>
         <a href="#" className="icon">
             <i className="fe fe-edit"></i>
         </a>
@@ -37,7 +33,7 @@ export const ItemTable = ({ items = [] }) => (
     <div className="col-12">
         <div className="card">
             <div className="card-header">
-                <h3 className="card-title">Item</h3>
+                <h3 className="card-title">Items</h3>
                 <div className="card-options">
                     <a href="#" className="btn btn-primary btn-sm"><i className="fe fe-plus"></i></a>
                 </div>
@@ -50,8 +46,7 @@ export const ItemTable = ({ items = [] }) => (
                                 <th className="text-center w-1">#</th>
                                 <th>Name</th>
                                 <th className="text-right">Stock</th>
-                                <th className="text-right">Buy Price</th>
-                                <th className="text-right">Sell Price</th>
+                                <th className="text-left">Desc</th>
                                 <th className="w-1"></th>
                             </tr>
                         </thead>
