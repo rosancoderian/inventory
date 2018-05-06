@@ -1,6 +1,6 @@
 const NoDataRow = () => (
 <tr>
-    <td colSpan="5" className="text-center">
+    <td colSpan="6" className="text-center">
         Data not found.
     </td>
 </tr>
@@ -9,18 +9,18 @@ const NoDataRow = () => (
 const ItemRow = (props) => (
 <tr>
     <td className="text-center w-1">{props.i + 1}</td>
-    <td>{props.date}</td>
+    <td>{props.date.toDate().toDateString()}</td>
     <td className="text-right">{props.quantity}</td>
-    <td className="text-left">{props.unit_cost}</td>
-    <td className="text-left">{props.total_cost}</td>
-    {/* <td className="col-action">
+    <td className="text-right">Rp. {props.unit_cost || 0} ,-</td>
+    <td className="text-right">Rp. {props.total_cost || 0} ,-</td>
+    <td className="col-action">
         <a href="#" className="icon">
             <i className="fe fe-edit"></i>
         </a>
         <a href="#" className="icon">
             <i className="fe fe-trash"></i>
         </a>
-    </td> */}
+    </td>
     <style jsx>{`
     .col-action a {
         margin: 0px 5px;
@@ -45,9 +45,9 @@ export const InventoryInTable = ({ data = [] }) => (
                         <th className="text-center w-1">#</th>
                         <th>Date</th>
                         <th className="text-right">Quantity</th>
-                        <th className="text-left">Unit Cost</th>
-                        <th className="text-left">Total Cost</th>
-                        {/* <th className="w-1"></th> */}
+                        <th className="text-right">Unit Cost</th>
+                        <th className="text-right">Total Cost</th>
+                        <th className="w-1"></th>
                     </tr>
                 </thead>
                 <tbody>

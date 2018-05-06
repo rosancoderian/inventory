@@ -7,15 +7,18 @@ import { InventoryInTable } from '../components/inventory-in-table'
 export default class IndexPage extends Component {
     static async getInitialProps (ctx) {
         let items = await db.collection('items').get()
+        let invIn = await db.collection('inventory_in').get()
         return { 
-            items: items.docs.map((doc) => doc.data()) 
+            items: items.docs.map((doc) => doc.data()),
+            invIn: invIn.docs.map((doc) => doc.data()) 
         }
     }
 
     constructor (props) {
         super()
         this.state = {
-            items: props.items
+            items: props.items,
+            invIn: props.invIn
         }
     }
     
@@ -24,15 +27,12 @@ export default class IndexPage extends Component {
     }
 
     render () {
-        let { items } = this.state
+        let { items, invIn } = this.state
         return (
             <Page>
                 <div className="row row-cards row-deck">
-                    <div className="col-6">
-                        <InventoryInTable data={items} />
-                    </div>
-                    <div className="col-6">
-                        <ItemTable data={items} />
+                    <div className="col-12">
+                        <InventoryInTable data={invIn} />
                     </div>
                 </div>
                 <div className="row row-cards row-deck">
@@ -45,11 +45,19 @@ export default class IndexPage extends Component {
     }
 
     initDbListener () {
+        db.settings({timestampsInSnapshots: true})
         db.collection('items').onSnapshot((snapshot) => {
             let items = snapshot.docs.map(doc => doc.data())
             this.setState({
                 ...this.state,
                 items
+            })
+        })
+        db.collection('inventory_in').onSnapshot((snapshot) => {
+            let invIn = snapshot.docs.map(doc => doc.data())
+            this.setState({
+                ...this.state,
+                invIn
             })
         })
     }
