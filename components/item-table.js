@@ -1,6 +1,6 @@
 const NoDataRow = () => (
 <tr>
-    <td colSpan="5" className="text-center">
+    <td colSpan="6" className="text-center">
         Data not found.
     </td>
 </tr>
@@ -37,7 +37,7 @@ export const ItemTable = ({ items = [] }) => (
     <div className="col-12">
         <div className="card">
             <div className="card-header">
-                <h3 className="card-title">Inventory</h3>
+                <h3 className="card-title">Item</h3>
                 <div className="card-options">
                     <a href="#" className="btn btn-primary btn-sm"><i className="fe fe-plus"></i></a>
                 </div>

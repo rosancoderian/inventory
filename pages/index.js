@@ -11,24 +11,15 @@ export default class IndexPage extends Component {
         }
     }
 
-    constructor () {
+    constructor (props) {
         super()
         this.state = {
-            items: []
+            items: props.items
         }
     }
     
     async componentDidMount () {
-        this.setState({ 
-            items: this.props.items
-        })
-        db.collection('items').onSnapshot((snapshot) => {
-            let items = snapshot.docs.map(doc => doc.data())
-            this.setState({
-                ...this.state,
-                items
-            })
-        })
+        this.initDbListener()
     }
 
     render () {
@@ -38,5 +29,15 @@ export default class IndexPage extends Component {
                 <ItemTable items={items} />
             </Page>
         )
+    }
+
+    initDbListener () {
+        db.collection('items').onSnapshot((snapshot) => {
+            let items = snapshot.docs.map(doc => doc.data())
+            this.setState({
+                ...this.state,
+                items
+            })
+        })
     }
 }
