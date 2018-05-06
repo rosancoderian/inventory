@@ -8,7 +8,7 @@ const NoDataRow = () => (
 
 const ItemRow = (props) => (
 <tr>
-    <td className="text-center w-1">{props.index + 1}</td>
+    <td className="text-center w-1">{props.i + 1}</td>
     <td>{props.name}</td>
     <td className="text-right">{props.stock}</td>
     <td className="text-right">Rp. {props.buy_price} ,-</td>
@@ -34,7 +34,7 @@ export const ItemTable = ({ items = [] }) => (
     <div className="col-12">
         <div className="card">
             <div className="card-header">
-                <h3 className="card-title">Items</h3>
+                <h3 className="card-title">Inventory</h3>
                 <div className="card-options">
                     <a href="#" className="btn btn-primary btn-sm"><i className="fe fe-plus"></i></a>
                 </div>
@@ -53,7 +53,7 @@ export const ItemTable = ({ items = [] }) => (
                             </tr>
                         </thead>
                         <tbody>
-                            {items.length ? items.map((item, index) => <ItemRow {...{index, ...item}} />) : <NoDataRow />}
+                            {items.length ? items.map((item, i) => <ItemRow key={i} i={i} {...item} />) : <NoDataRow />}
                         </tbody>
                     </table>
                 </div>

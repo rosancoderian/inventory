@@ -1,4 +1,3 @@
-
 export const Page = ({children}) => (
 <div className="page">
     <div className="page-main">
