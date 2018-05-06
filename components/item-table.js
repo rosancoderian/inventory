@@ -15,6 +15,9 @@ const ItemRow = (props) => (
     <td className="text-right">Rp. {props.sell_price} ,-</td>
     <td className="col-action">
         <a href="#" className="icon">
+            <i className="fe fe-external-link"></i>
+        </a>
+        <a href="#" className="icon">
             <i className="fe fe-edit"></i>
         </a>
         <a href="#" className="icon">
