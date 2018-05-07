@@ -1,7 +1,7 @@
 const NoDataRow = () => (
 <tr>
     <td colSpan="6" className="text-center">
-        Data not found.
+        Loading data.
     </td>
 </tr>
 )
