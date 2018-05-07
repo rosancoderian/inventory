@@ -10,10 +10,13 @@ export default class IndexPage extends Component {
 
     constructor (props) {
         super()
-        this.initDbListener()
         this.state = {
             items: [],
         }
+    }
+
+    componentDidMount () {
+        this.initDbListener()
     }
 
     render () {

@@ -10,10 +10,13 @@ export default class InventoryInPage extends Component {
 
     constructor (props) {
         super()
-        this.initDbListener()
         this.state = {
             invIn: []
         }
+    }
+
+    componentDidMount () {
+        this.initDbListener()
     }
 
     render () {

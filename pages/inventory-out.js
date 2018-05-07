@@ -10,10 +10,13 @@ export default class InventoryOutPage extends Component {
 
     constructor (props) {
         super()
-        this.initDbListener()
         this.state = {
             invOut: []
         }
+    }
+
+    componentDidMount () {
+        this.initDbListener()
     }
 
     render () {
