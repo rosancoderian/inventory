@@ -22,6 +22,7 @@ export default class IndexPage extends Component {
                 desc: ''
             },
             items: [],
+            stocks: {},
             addItemFormVisible: true
         }
     }
@@ -31,14 +32,14 @@ export default class IndexPage extends Component {
     }
 
     render () {
-        let { items, addItemFormVisible, item } = this.state
+        let { items, stocks, addItemFormVisible, item } = this.state
         return (
         <Page>
             <div className="row">
                 <div className="col-8">
                     <div className="row">
                         <div className="col-12">
-                            <ItemTable data={items} onAdd={this.showAddItemForm} onEdit={this.showEditItemForm} onDelete={this.deleteItem} />
+                            <ItemTable data={items} stocks={stocks} onAdd={this.showAddItemForm} onEdit={this.showEditItemForm} onDelete={this.deleteItem} />
                         </div>
                     </div>
                 </div>
@@ -108,11 +109,10 @@ export default class IndexPage extends Component {
                 stocks[inv.item_id] += inv.quantity
                 return stocks
             }, {})
-            console.log(stocks)
-            // this.setState({
-            //     ...this.state,
-            //     items
-            // })
+            this.setState({
+                ...this.state,
+                stocks,
+            })
         })
     }
 }

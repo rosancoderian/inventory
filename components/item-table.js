@@ -23,7 +23,7 @@ class ItemRow extends Component {
         <tr data-id={props.id}>
             <td className="text-center w-1">{props.i + 1}</td>
             <td>{props.name}</td>
-            <td className="text-right">{props.stock}</td>
+            <td className="text-right">{props.stock || 0}</td>
             <td className="text-left">{props.desc}</td>
             <td className="col-action">
                 <a className="icon">
@@ -72,13 +72,6 @@ export class ItemForm extends Component {
                 desc: props.desc
             })
         }
-        
-        // this.state = {
-        //     ...this.state,
-        //     id: props.id,
-        //     name: props.name,
-        //     desc: props.desc
-        // }
     }
 
     render () {
@@ -141,7 +134,7 @@ export class ItemTable extends Component {
     }
 
     render () {
-        let { data, onDelete, onEdit, onAdd } = this.props
+        let { data, stocks, onDelete, onEdit, onAdd } = this.props
         let { createModalVisible } = this.state
         return (
         <div className="card">
@@ -164,7 +157,7 @@ export class ItemTable extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.length ? data.map((d, i) => <ItemRow key={i} i={i} onDelete={onDelete} onEdit={onEdit} {...d} />) : <NoDataRow />}
+                            {data.length ? data.map((d, i) => <ItemRow key={i} i={i} onDelete={onDelete} onEdit={onEdit} {...d} stock={stocks[d.id]} />) : <NoDataRow />}
                         </tbody>
                     </table>
                 </div>
