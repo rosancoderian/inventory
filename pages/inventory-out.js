@@ -5,17 +5,14 @@ import { InventoryOutTable } from '../components/inventory-out-table'
 
 export default class InventoryOutPage extends Component {
     static async getInitialProps (ctx) {
-        let invOut = await db.collection('inventory_out').get()
-        return { 
-            invOut: invOut.docs.map((doc) => ({...doc.data(), id: doc.id})),
-        }
+        return {}
     }
 
     constructor (props) {
         super()
         this.initDbListener()
         this.state = {
-            invOut: props.invOut
+            invOut: []
         }
     }
 

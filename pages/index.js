@@ -5,17 +5,14 @@ import { ItemTable } from '../components/item-table'
 
 export default class IndexPage extends Component {
     static async getInitialProps (ctx) {
-        let items = await db.collection('items').get()
-        return { 
-            items: items.docs.map((doc) => ({...doc.data(), id: doc.id}))
-        }
+        return {}
     }
 
     constructor (props) {
         super()
         this.initDbListener()
         this.state = {
-            items: props.items,
+            items: [],
         }
     }
 

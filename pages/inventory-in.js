@@ -5,17 +5,14 @@ import { InventoryInTable } from '../components/inventory-in-table'
 
 export default class InventoryInPage extends Component {
     static async getInitialProps (ctx) {
-        let invIn = await db.collection('inventory_in').get()
-        return { 
-            invIn: invIn.docs.map((doc) => ({...doc.data(), id: doc.id})),
-        }
+        return {}
     }
 
     constructor (props) {
         super()
         this.initDbListener()
         this.state = {
-            invIn: props.invIn,
+            invIn: []
         }
     }
 
