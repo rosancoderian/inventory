@@ -1,4 +1,4 @@
-import { db } from '../lib/db'
+import { db, firestore } from '../lib/db'
 import { Component } from 'react' 
 import { Page } from '../components/page'
 import { ItemTable, ItemForm } from '../components/item-table'
@@ -56,7 +56,7 @@ export default class IndexPage extends Component {
     }
 
     async addItem ({ name, desc }) {
-        return db.collection('items').add({
+        return db().collection('items').add({
             name,
             desc
         })
@@ -64,14 +64,14 @@ export default class IndexPage extends Component {
 
     async updateItem (item) {
         if (!item.id) return
-        return db.collection('items').doc(item.id).set({
+        return db().collection('items').doc(item.id).set({
             name: item.name,
             desc: item.desc
         })
     }
 
     async deleteItem (id) {
-        return db.collection('items').doc(id).delete()
+        return db().collection('items').doc(id).delete()
     }
 
     showAddItemForm () {
@@ -92,12 +92,27 @@ export default class IndexPage extends Component {
     }
 
     listenDb () {
-        db.collection('items').onSnapshot((snapshot) => {
+        db().collection('items').onSnapshot((snapshot) => {
             let items = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))
             this.setState({
                 ...this.state,
                 items
             })
+        })
+        db().collection('inventory_in').onSnapshot((snapshot) => {
+            let invIn = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))
+            let stocks = invIn.reduce((stocks, inv) => {
+                if (typeof stocks[inv.item_id] == 'undefined') {
+                    stocks[inv.item_id] = 0
+                }
+                stocks[inv.item_id] += inv.quantity
+                return stocks
+            }, {})
+            console.log(stocks)
+            // this.setState({
+            //     ...this.state,
+            //     items
+            // })
         })
     }
 }
