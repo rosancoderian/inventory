@@ -49,7 +49,7 @@ export const ItemTable = ({ data = [] }) => (
                     </tr>
                 </thead>
                 <tbody>
-                    {data.length ? data.map((item, i) => <ItemRow key={i} i={i} {...item} />) : <NoDataRow />}
+                    {data.length ? data.map((d, i) => <ItemRow key={i} i={i} {...d} />) : <NoDataRow />}
                 </tbody>
             </table>
         </div>
