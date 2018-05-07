@@ -11,9 +11,9 @@ export default class IndexPage extends Component {
         let invIn = await db.collection('inventory_in').get()
         let invOut = await db.collection('inventory_out').get()
         return { 
-            items: items.docs.map((doc) => doc.data()),
-            invIn: invIn.docs.map((doc) => doc.data()),
-            invOut: invOut.docs.map((doc) => doc.data())
+            items: items.docs.map((doc) => ({...doc.data(), id: doc.id})),
+            invIn: invIn.docs.map((doc) => ({...doc.data(), id: doc.id})),
+            invOut: invOut.docs.map((doc) => ({...doc.data(), id: doc.id})),
         }
     }
 
