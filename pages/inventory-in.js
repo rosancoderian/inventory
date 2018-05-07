@@ -34,7 +34,7 @@ export default class InventoryInPage extends Component {
 
     initDbListener () {
         db.collection('inventory_in').onSnapshot((snapshot) => {
-            let invIn = snapshot.docs.map(doc => doc.data())
+            let invIn = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))
             this.setState({
                 ...this.state,
                 invIn
