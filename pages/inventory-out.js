@@ -1,13 +1,13 @@
 import { db } from '../lib/db'
 import { Component } from 'react' 
 import { Page } from '../components/page'
-import { ItemTable } from '../components/item-table'
+import { InventoryOutTable } from '../components/inventory-out-table'
 
-export default class IndexPage extends Component {
+export default class InventoryOutPage extends Component {
     static async getInitialProps (ctx) {
-        let items = await db.collection('items').get()
+        let invOut = await db.collection('inventory_out').get()
         return { 
-            items: items.docs.map((doc) => ({...doc.data(), id: doc.id}))
+            invOut: invOut.docs.map((doc) => ({...doc.data(), id: doc.id})),
         }
     }
 
@@ -15,17 +15,17 @@ export default class IndexPage extends Component {
         super()
         this.initDbListener()
         this.state = {
-            items: props.items,
+            invOut: props.invOut
         }
     }
 
     render () {
-        let { items } = this.state
+        let { invOut } = this.state
         return (
         <Page>
             <div className="row row-cards row-deck">
                 <div className="col-12">
-                    <ItemTable data={items} />
+                    <InventoryOutTable data={invOut} />
                 </div>
             </div>
         </Page>
@@ -33,11 +33,11 @@ export default class IndexPage extends Component {
     }
 
     initDbListener () {
-        db.collection('items').onSnapshot((snapshot) => {
-            let items = snapshot.docs.map(doc => doc.data())
+        db.collection('inventory_out').onSnapshot((snapshot) => {
+            let invOut = snapshot.docs.map(doc => doc.data())
             this.setState({
                 ...this.state,
-                items
+                invOut
             })
         })
     }
