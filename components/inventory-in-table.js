@@ -102,7 +102,7 @@ export class Form extends Component {
                     <label className="form-label">id: {id}</label>
                 </div>: ''}
                 <div className="form-group">
-                    <label className="form-label">Item</label>
+                    <label className="form-label">Inventory In</label>
                     <select onChange={this.listenOnChange('item_id')} value={item_id}>
                         <option value={null}>Select Item</option>
                         {items.length ? items.map((item, i) => <option key={i} value={item.id}>{item.name}</option>) : ''}
