@@ -3,7 +3,7 @@ import { Component } from 'react'
 const NoDataRow = () => (
 <tr>
     <td colSpan="5" className="text-center">
-        Loading data.
+        
     </td>
 </tr>
 )

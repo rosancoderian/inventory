@@ -2,6 +2,7 @@ import { db } from '../lib/db'
 import { Component } from 'react' 
 import { Page } from '../components/page'
 import { InventoryInTable, Form } from '../components/inventory-in-table'
+import { Info } from '../components/info'
 
 export default class InventoryInPage extends Component {
     static async getInitialProps (ctx) {
@@ -37,6 +38,11 @@ export default class InventoryInPage extends Component {
         let { invIn, items, itemsRef, formData, addFormVisible } = this.state
         return (
         <Page>
+            <div className="row row-cards">
+                <div className="col-12">
+                    <Info />
+                </div>
+            </div>
             <div className="row">
                 <div className="col-8">
                     <div className="row">

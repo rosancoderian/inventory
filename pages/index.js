@@ -2,6 +2,7 @@ import { db } from '../lib/db'
 import { Component } from 'react' 
 import { Page } from '../components/page'
 import { ItemTable, Form } from '../components/item-table'
+import { Info } from '../components/info'
 
 export default class IndexPage extends Component {
     static async getInitialProps (ctx) {
@@ -35,6 +36,11 @@ export default class IndexPage extends Component {
         let { items, stocks, addItemFormVisible, item } = this.state
         return (
         <Page>
+            <div className="row row-cards">
+                <div className="col-12">
+                    <Info />
+                </div>
+            </div>
             <div className="row">
                 <div className="col-8">
                     <div className="row">
