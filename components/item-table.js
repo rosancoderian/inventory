@@ -1,6 +1,4 @@
 import { Component } from 'react'
-import Rodal from 'rodal'
-import 'rodal/lib/rodal.css'
 
 const NoDataRow = () => (
 <tr>
