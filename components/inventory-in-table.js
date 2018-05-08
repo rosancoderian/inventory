@@ -102,7 +102,7 @@ export class Form extends Component {
                     <label className="form-label">id: {id}</label>
                 </div>: ''}
                 <div className="form-group">
-                    <label className="form-label">Inventory In</label>
+                    <label className="form-label">Item</label>
                     <select onChange={this.listenOnChange('item_id')} value={item_id}>
                         <option value={null}>Select Item</option>
                         {items.length ? items.map((item, i) => <option key={i} value={item.id}>{item.name}</option>) : ''}
@@ -155,7 +155,7 @@ export class InventoryInTable extends Component {
         return (
         <div className="card">
             <div className="card-header">
-                <h3 className="card-title">Items</h3>
+                <h3 className="card-title">Inventory In</h3>
                 <div className="card-options">
                     <a href="#" className="btn btn-primary btn-sm" onClick={onAdd}><i className="fe fe-plus"></i></a>
                 </div>
