@@ -10,7 +10,7 @@ const NoDataRow = () => (
 </tr>
 )
 
-class ItemRow extends Component {
+class Row extends Component {
     constructor() {
         super()
         this.delete = this.delete.bind(this)
@@ -51,7 +51,7 @@ class ItemRow extends Component {
     }
 }
 
-export class ItemForm extends Component {
+export class Form extends Component {
     constructor ({ id = '', name = '', desc = '' }) {
         super()
         this.save = this.save.bind(this)
@@ -157,7 +157,7 @@ export class ItemTable extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.length ? data.map((d, i) => <ItemRow key={i} i={i} onDelete={onDelete} onEdit={onEdit} {...d} stock={stocks[d.id]} />) : <NoDataRow />}
+                            {data.length ? data.map((d, i) => <Row key={i} i={i} onDelete={onDelete} onEdit={onEdit} {...d} stock={stocks[d.id]} />) : <NoDataRow />}
                         </tbody>
                     </table>
                 </div>

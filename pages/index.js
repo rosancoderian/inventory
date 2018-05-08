@@ -1,7 +1,7 @@
-import { db, firestore } from '../lib/db'
+import { db } from '../lib/db'
 import { Component } from 'react' 
 import { Page } from '../components/page'
-import { ItemTable, ItemForm } from '../components/item-table'
+import { ItemTable, Form } from '../components/item-table'
 
 export default class IndexPage extends Component {
     static async getInitialProps (ctx) {
@@ -46,8 +46,8 @@ export default class IndexPage extends Component {
                 <div className="col-4">
                     <div className="row">
                         <div className="col-12">
-                            <ItemForm title="Add Item" visible={addItemFormVisible} onSave={this.addItem} />
-                            <ItemForm title="Update Item" visible={!addItemFormVisible} id={item.id} name={item.name} desc={item.desc} onSave={this.updateItem} />
+                            <Form title="Add Item" visible={addItemFormVisible} onSave={this.addItem} />
+                            <Form title="Update Item" visible={!addItemFormVisible} id={item.id} name={item.name} desc={item.desc} onSave={this.updateItem} />
                         </div>
                     </div>
                 </div>
