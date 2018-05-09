@@ -4,19 +4,25 @@ import { db } from '../lib/db'
 const Context = createContext()
 
 export class Provider extends Component {
+    isListen = false
+
     state = {
         items: [],
         invIn: [],
         invOut: [],
         itemRefs: {},
         stockRefs: {},
-    }
+        totalItems: 0,
+        totalCost: 0,
+        totalProfit: 0,
+        totalIncome: 0,
+        totalProfit: 0,
 
+    }
+    
     constructor () {
         super()
-    }
-
-    componentDidMount () {
+        this.listenDb = this.listenDb.bind(this)
         this.listenDb()
     }
 
@@ -29,6 +35,7 @@ export class Provider extends Component {
     }
 
     listenDb () {
+        if (this.isListen) return
         db().collection('items').onSnapshot((snapshot) => {
             let items = snapshot.docs.map(doc => ({
                 id: doc.id,
@@ -91,9 +98,10 @@ export class Provider extends Component {
                     result.totalIncome += data.total_income
                     result.totalProfit = result.totalIncome - this.state.totalCost
                     return result
-                }, {totalIncome: 0, totalProfit: 0 })
+                }, { totalIncome: 0, totalProfit: 0 })
             })
         })
+        this.isListen = true
     }
 }
 
