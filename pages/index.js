@@ -1,8 +1,8 @@
 import { db } from '../lib/db'
 import { Component } from 'react' 
-import { Page } from '../components/page'
-import { ItemTable, Form } from '../components/item-table'
-import { Info } from '../components/info'
+import { Page } from '../components/Page'
+import { ItemTable, Form } from '../components/ItemTable'
+import { Info } from '../components/Info'
 
 export default class IndexPage extends Component {
     static async getInitialProps (ctx) {

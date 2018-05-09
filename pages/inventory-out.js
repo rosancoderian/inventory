@@ -1,8 +1,8 @@
 import { db } from '../lib/db'
 import { Component } from 'react' 
-import { Page } from '../components/page'
-import { InventoryOutTable, Form } from '../components/inventory-out-table'
-import { Info } from '../components/info'
+import { Page } from '../components/Page'
+import { InventoryOutTable, Form } from '../components/InventoryOutTable'
+import { Info } from '../components/Info'
 
 export default class InventoryOutPage extends Component {
     static async getInitialProps (ctx) {

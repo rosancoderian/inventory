@@ -1,4 +1,4 @@
-import { Nav } from './nav'
+import { Nav } from './Nav'
 
 export const Page = ({children}) => (
 <div className="page">
