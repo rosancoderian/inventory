@@ -9,11 +9,10 @@ export default class InventoryInPage extends Component {
     state = {
         addFormVisible: true,
         formData: {
-            id: null,
-            item_id: null,
-            quantity: null,
-            total_cost: null,
-            items: null
+            id: '',
+            item_id: '',
+            quantity: 0,
+            total_cost: 0,
         }
     }
 

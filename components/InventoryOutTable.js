@@ -1,12 +1,6 @@
 import { Component } from 'react'
-
-const NoDataRow = () => (
-<tr>
-    <td colSpan="6" className="text-center">
-        
-    </td>
-</tr>
-)
+import { NoDataRow } from './commons'
+import InventoryContext from '../components/InventoryContext'
 
 class Row extends Component {
     constructor() {
@@ -15,18 +9,18 @@ class Row extends Component {
         this.edit = this.edit.bind(this)
     }
 
-    componentWillReceiveProps (props) {
-
-    }
-
     render () {
         return (
         <tr data-id={this.props.id}>
             <td className="text-center w-1">{this.props.i + 1}</td>
-            <td>{this.props.item ? this.props.item.name : ''}</td>
+            <td>
+                <InventoryContext.Consumer>
+                    {({state}) => state.itemRefs[this.props.itemId].name}
+                </InventoryContext.Consumer>
+            </td>
             <td className="text-right">Rp. {this.props.unit_income.toFixed(2) || 0}</td>
             <td className="text-right">{this.props.quantity || 0}</td>
-            <td className="text-right">Rp. {this.props.total_income.toFixed(2) || 0}</td>
+            <td className="text-right">Rp. {this.props.total_income || 0}</td>
             <td className="col-action">
                 <a className="icon">
                     <i className="fe fe-edit" onClick={this.edit}></i>
@@ -54,7 +48,7 @@ class Row extends Component {
 }
 
 export class Form extends Component {
-    constructor ({ id = '', item_id = '', quantity = 0, total_income = 0, items = [] }) {
+    constructor ({ id = '', item_id = undefined, quantity = 0, total_income = 0 }) {
         super()
         this.save = this.save.bind(this)
         this.clear = this.clear.bind(this)
@@ -63,7 +57,6 @@ export class Form extends Component {
             item_id,
             quantity,
             total_income,
-            items,
         }
         this.state = {
             ...defaultData,
@@ -78,7 +71,6 @@ export class Form extends Component {
                 item_id: props.item_id,
                 quantity: props.quantity,
                 total_income: props.total_income,
-                items: props.items,
             }
             this.setState({
                 ...this.state,
@@ -89,7 +81,7 @@ export class Form extends Component {
     }
 
     render () {
-        let { title = '', visible = true, onSave, items = [] } = this.props
+        let { title = '', visible = true, onSave } = this.props
         let { id, item_id, quantity, total_income } = this.state
         let style = !visible ? { display: 'none' } : {}
         return (
@@ -104,8 +96,12 @@ export class Form extends Component {
                 <div className="form-group">
                     <label className="form-label">Item</label>
                     <select onChange={this.listenOnChange('item_id')} value={item_id}>
-                        <option value={null}>Select Item</option>
-                        {items.length ? items.map((item, i) => <option key={i} value={item.id}>{item.name}</option>) : ''}
+                        <option value={undefined}>Select Item</option>
+                        <InventoryContext.Consumer>
+                            {({ state }) => (
+                                state.items.length ? state.items.map((item, i) => <option key={i} value={item.id}>{item.name}</option>) : ''
+                            )}
+                        </InventoryContext.Consumer>
                     </select>
                 </div>
                 <div className="form-group">
@@ -151,11 +147,11 @@ export class InventoryOutTable extends Component {
     }
 
     render () {
-        let { data, itemsRef, onDelete, onEdit, onAdd } = this.props
+        let { data, itemRefs, onDelete, onEdit, onAdd } = this.props
         return (
         <div className="card">
             <div className="card-header">
-                <h3 className="card-title">Inventory Out</h3>
+                <h3 className="card-title">Inventory In</h3>
                 <div className="card-options">
                     <a href="#" className="btn btn-primary btn-sm" onClick={onAdd}><i className="fe fe-plus"></i></a>
                 </div>
@@ -174,7 +170,14 @@ export class InventoryOutTable extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.length ? data.map((d, i) => <Row key={i} i={i} onDelete={onDelete} onEdit={onEdit} {...d} item={itemsRef[d.item_id]} />) : <NoDataRow />}
+                            <InventoryContext.Consumer>
+                                {({ state }) => (
+                                    state.invOut.length ? state.invOut.map((d, i) => 
+                                    <Row key={i} i={i} onDelete={onDelete} onEdit={onEdit} {...d} itemId={d.item_id} />)
+                                    : 
+                                    <NoDataRow />
+                                )}
+                            </InventoryContext.Consumer>
                         </tbody>
                     </table>
                 </div>
