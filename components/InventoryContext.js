@@ -34,14 +34,14 @@ export class Provider extends Component {
                 id: doc.id,
                 ...doc.data()
             }))
-            let itemsRef = items.reduce((itemsRef, item) => {
-                itemsRef[item.id] = item
-                return itemsRef
+            let itemRefs = items.reduce((itemRefs, item) => {
+                itemRefs[item.id] = item
+                return itemRefs
             }, {})
             this.setState({
                 ...this.state,
                 items,
-                itemsRef
+                itemRefs
             })
         })
         db().collection('inventory_in').onSnapshot((snapshot) => {
