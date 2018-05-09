@@ -3,37 +3,29 @@ import { Component } from 'react'
 import { Page } from '../components/Page'
 import { ItemTable, Form } from '../components/ItemTable'
 import { Info } from '../components/Info'
+import InventoryContext from '../components/InventoryContext'
 
 export default class IndexPage extends Component {
-    static async getInitialProps (ctx) {
-        return {}
+    state = {
+        formData: {
+            id: '',
+            name: '',
+            desc: ''
+        },
+        addFormVisible: true
     }
 
     constructor (props) {
         super()
-        this.showAddItemForm = this.showAddItemForm.bind(this)
-        this.showEditItemForm = this.showEditItemForm.bind(this)
-        this.addItem = this.addItem.bind(this)
-        this.updateItem = this.updateItem.bind(this)
-        this.deleteItem = this.deleteItem.bind(this)
-        this.state = {
-            item: {
-                id: '',
-                name: '',
-                desc: ''
-            },
-            items: [],
-            stocks: {},
-            addItemFormVisible: true
-        }
-    }
-
-    componentDidMount () {
-        this.listenDb()
+        this.showAddForm = this.showAddForm.bind(this)
+        this.showEditForm = this.showEditForm.bind(this)
+        this.add = this.add.bind(this)
+        this.update = this.update.bind(this)
+        this.delete = this.delete.bind(this)
     }
 
     render () {
-        let { items, stocks, addItemFormVisible, item } = this.state
+        let { addFormVisible, formData } = this.state
         return (
         <Page>
             <div className="row row-cards">
@@ -45,15 +37,19 @@ export default class IndexPage extends Component {
                 <div className="col-8">
                     <div className="row">
                         <div className="col-12">
-                            <ItemTable data={items} stocks={stocks} onAdd={this.showAddItemForm} onEdit={this.showEditItemForm} onDelete={this.deleteItem} />
+                            <InventoryContext.Consumer>
+                                {({ state }) => (
+                                    <ItemTable data={state.items} stocks={state.stockRefs} onAdd={this.showAddForm} onEdit={this.showEditForm} onDelete={this.delete} />
+                                )}
+                            </InventoryContext.Consumer>
                         </div>
                     </div>
                 </div>
                 <div className="col-4">
                     <div className="row">
                         <div className="col-12">
-                            <Form title="Add Item" visible={addItemFormVisible} onSave={this.addItem} />
-                            <Form title="Update Item" visible={!addItemFormVisible} id={item.id} name={item.name} desc={item.desc} onSave={this.updateItem} />
+                            <Form title="Add Item" visible={addFormVisible} onSave={this.add} />
+                            <Form title="Update Item" visible={!addFormVisible} {...formData} onSave={this.update} />
                         </div>
                     </div>
                 </div>
@@ -62,63 +58,37 @@ export default class IndexPage extends Component {
         )
     }
 
-    async addItem ({ name, desc }) {
+    async add (data) {
         return db().collection('items').add({
-            name,
-            desc
+            name: data.name,
+            desc: data.desc
         })
     }
 
-    async updateItem (item) {
-        if (!item.id) return
-        return db().collection('items').doc(item.id).set({
-            name: item.name,
-            desc: item.desc
+    async update (data) {
+        if (!data.id) return
+        return db().collection('items').doc(data.id).set({
+            name: data.name,
+            desc: data.desc
         })
     }
 
-    async deleteItem (id) {
-        return db().collection('items').doc(id).delete()
+    async delete (data) {
+        return db().collection('items').doc(data.id).delete()
     }
 
-    showAddItemForm () {
+    showAddForm () {
         this.setState({
             ...this.state,
-            addItemFormVisible: true
+            addFormVisible: true
         })
     }
 
-    showEditItemForm (item) {
+    showEditForm (data) {
         this.setState({
             ...this.state,
-            addItemFormVisible: false,
-            item: {
-                ...item
-            }
-        })
-    }
-
-    listenDb () {
-        db().collection('items').onSnapshot((snapshot) => {
-            let items = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))
-            this.setState({
-                ...this.state,
-                items
-            })
-        })
-        db().collection('inventory_in').onSnapshot((snapshot) => {
-            let invIn = snapshot.docs.map(doc => ({id: doc.id, ...doc.data()}))
-            let stocks = invIn.reduce((stocks, inv) => {
-                if (typeof stocks[inv.item_id] == 'undefined') {
-                    stocks[inv.item_id] = 0
-                }
-                stocks[inv.item_id] += inv.quantity
-                return stocks
-            }, {})
-            this.setState({
-                ...this.state,
-                stocks,
-            })
+            addFormVisible: false,
+            formData: data
         })
     }
 }

@@ -1,12 +1,5 @@
 import { Component } from 'react'
-
-const NoDataRow = () => (
-<tr>
-    <td colSpan="5" className="text-center">
-        
-    </td>
-</tr>
-)
+import { NoDataRow } from './commons'
 
 class Row extends Component {
     constructor() {
@@ -16,13 +9,12 @@ class Row extends Component {
     }
 
     render () {
-        let props = this.props
         return (
-        <tr data-id={props.id}>
-            <td className="text-center w-1">{props.i + 1}</td>
-            <td>{props.name}</td>
-            <td className="text-right">{props.stock || 0}</td>
-            <td className="text-left">{props.desc}</td>
+        <tr data-id={this.props.id}>
+            <td className="text-center w-1">{this.props.i + 1}</td>
+            <td>{this.props.name}</td>
+            <td className="text-right">{this.props.stock || 0}</td>
+            <td className="text-left">{this.props.desc}</td>
             <td className="col-action">
                 <a className="icon">
                     <i className="fe fe-edit" onClick={this.edit}></i>
@@ -41,7 +33,7 @@ class Row extends Component {
     }
 
     async delete () {
-        this.props.onDelete(this.props.id, this.props)
+        this.props.onDelete(this.props)
     }
 
     async edit () {
@@ -54,20 +46,28 @@ export class Form extends Component {
         super()
         this.save = this.save.bind(this)
         this.clear = this.clear.bind(this)
-        this.state = {
+        let defaultData = {
             id,
             name,
             desc
+        }
+        this.state = {
+            ...defaultData,
+            defaultData
         }
     }
 
     componentWillReceiveProps(props) {
         if (props.id !== this.props.id) {
-            this.setState({
-                ...this.state,
+            let defaultData = {
                 id: props.id,
                 name: props.name,
                 desc: props.desc
+            }
+            this.setState({
+                ...this.state,
+                ...defaultData,
+                defaultData
             })
         }
     }
@@ -109,8 +109,7 @@ export class Form extends Component {
     clear () {
         this.setState({
             ...this.state,
-            name: '',
-            desc: ''
+            ...this.state.defaultData
         })
     }
 
@@ -126,14 +125,10 @@ export class Form extends Component {
 export class ItemTable extends Component {
     constructor () {
         super()
-        this.state = {
-            createModalVisible: false
-        }
     }
 
     render () {
         let { data, stocks, onDelete, onEdit, onAdd } = this.props
-        let { createModalVisible } = this.state
         return (
         <div className="card">
             <div className="card-header">
@@ -155,7 +150,7 @@ export class ItemTable extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.length ? data.map((d, i) => <Row key={i} i={i} onDelete={onDelete} onEdit={onEdit} {...d} stock={stocks[d.id]} />) : <NoDataRow />}
+                            {data.length ? data.map((d, i) => <Row key={i} i={i} onDelete={onDelete} onEdit={onEdit} {...d} stock={stocks[d.id]} />) : <NoDataRow span="5" text="Loading." />}
                         </tbody>
                     </table>
                 </div>
