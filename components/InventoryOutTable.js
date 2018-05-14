@@ -151,7 +151,7 @@ export class InventoryOutTable extends Component {
         return (
         <div className="card">
             <div className="card-header">
-                <h3 className="card-title">Inventory In</h3>
+                <h3 className="card-title">Inventory Out</h3>
                 <div className="card-options">
                     <a href="#" className="btn btn-primary btn-sm" onClick={onAdd}><i className="fe fe-plus"></i></a>
                 </div>
