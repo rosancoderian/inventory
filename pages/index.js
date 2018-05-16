@@ -39,7 +39,7 @@ export default class IndexPage extends Component {
                         <div className="col-12">
                             <InventoryContext.Consumer>
                                 {({ state }) => (
-                                    <ItemTable data={state.items} stocks={state.stockRefs} onAdd={this.showAddForm} onEdit={this.showEditForm} onDelete={this.delete} />
+                                    <ItemTable data={state.items} stockIn={state.stockRefs} stockOut={state.stockOutRefs} onAdd={this.showAddForm} onEdit={this.showEditForm} onDelete={this.delete} />
                                 )}
                             </InventoryContext.Consumer>
                         </div>

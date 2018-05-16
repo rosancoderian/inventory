@@ -12,6 +12,7 @@ export class Provider extends Component {
         invOut: [],
         itemRefs: {},
         stockRefs: {},
+        stockOutRefs: {},
         totalItems: 0,
         totalCost: 0,
         totalProfit: 0,
@@ -51,6 +52,32 @@ export class Provider extends Component {
                 itemRefs
             })
         })
+        db().collection('inventory_out').onSnapshot((snapshot) => {
+            let invOut = snapshot.docs.map(doc => {
+                let data = doc.data()
+                return {
+                    id: doc.id,
+                    ...data,
+                    unit_income: data.total_income / data.quantity
+                }
+            })
+            this.setState({
+                ...this.state,
+                invOut,
+                ...invOut.reduce((result, data) => {
+                    result.totalIncome += data.total_income
+                    result.totalProfit = result.totalIncome - this.state.totalCost
+                    return result
+                }, { totalIncome: 0, totalProfit: 0 }),
+                stockOutRefs: invOut.reduce((stocks, inv) => {
+                    if (typeof stocks[inv.item_id] == 'undefined') {
+                        stocks[inv.item_id] = 0
+                    }
+                    stocks[inv.item_id] += inv.quantity
+                    return stocks
+                }, {})
+            })
+        })
         db().collection('inventory_in').onSnapshot((snapshot) => {
             let invIn = snapshot.docs.map(doc => {
                 let data = doc.data()
@@ -80,25 +107,6 @@ export class Provider extends Component {
                     stocks[inv.item_id] += inv.quantity
                     return stocks
                 }, {})
-            })
-        })
-        db().collection('inventory_out').onSnapshot((snapshot) => {
-            let invOut = snapshot.docs.map(doc => {
-                let data = doc.data()
-                return {
-                    id: doc.id,
-                    ...data,
-                    unit_income: data.total_income / data.quantity
-                }
-            })
-            this.setState({
-                ...this.state,
-                invOut,
-                ...invOut.reduce((result, data) => {
-                    result.totalIncome += data.total_income
-                    result.totalProfit = result.totalIncome - this.state.totalCost
-                    return result
-                }, { totalIncome: 0, totalProfit: 0 })
             })
         })
         this.isListen = true

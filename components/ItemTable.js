@@ -128,7 +128,7 @@ export class ItemTable extends Component {
     }
 
     render () {
-        let { data, stocks, onDelete, onEdit, onAdd } = this.props
+        let { data, stockIn, stockOut, onDelete, onEdit, onAdd } = this.props
         return (
         <div className="card">
             <div className="card-header">
@@ -150,7 +150,7 @@ export class ItemTable extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {data.length ? data.map((d, i) => <Row key={i} i={i} onDelete={onDelete} onEdit={onEdit} {...d} stock={stocks[d.id]} />) : <NoDataRow span="5" text="Loading." />}
+                            {data.length ? data.map((d, i) => <Row key={i} i={i} onDelete={onDelete} onEdit={onEdit} {...d} stock={(stockIn[d.id] - stockOut[d.id])} />) : <NoDataRow span="5" text="Loading." />}
                         </tbody>
                     </table>
                 </div>
