@@ -1,3 +1,4 @@
+https://inventory-duclrfiqrt.now.sh/
 ## Setup
 
     npm install -g next
